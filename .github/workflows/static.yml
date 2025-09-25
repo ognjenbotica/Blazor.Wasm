@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Deploy static content to Pages - static
 env:
   PUBLISH_DIR: src/Blazor.Wasm/bin/Release/net9.0/publish/wwwroot
 
@@ -9,7 +9,7 @@ on:
     paths:
       - src/Blazor.Wasm/**
     branches:
-      - main
+      - master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
