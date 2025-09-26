@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazor.Wasm.Dialogs
+@inherits LayoutComponentBase
+@inject IDialogService DialogService
 
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
@@ -6,11 +8,27 @@
 <MudSnackbarProvider />
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudImage Height="50" Src="https://cdn0.erstegroup.com/content/dam/hr/ebc/common/logos/erste-bank-white.svg" Alt="Erste" Class="pt-1" Elevation="0" />
         <MudSpacer />
-        <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle" />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        <MudIconButton Icon="@(DarkLightModeButtonIcon)" OnClick="@DarkModeToggle" />
+        <MudButtonGroup Variant="Variant.Text">
+            <MudButton>Gotovina</MudButton>
+            <MudButton>Proizvodi partnera</MudButton>
+            <MudButton>Bezgotovina</MudButton>
+            <MudButton>Trezor</MudButton>
+            <MudMenu Label="Ostale aplikacije" Color="Color.Default" Dense="true" EndIcon="@Icons.Material.Filled.KeyboardArrowDown">
+                <MudMenuItem Label="Corporate Digital Lending" />
+                <MudMenuItem Label="Obavijest o troškovima" />
+                <MudMenuItem Label="Upravljanje blagajnom" />
+            </MudMenu>
+        </MudButtonGroup>
+        <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="Otvori menu">
+            <MudMenuItem Label="Pomoć" />
+            <MudMenuItem Label="Lista zadataka" />
+            <MudMenuItem OnClick="OpenDialogAsync" Label="Odabir klijenta" />
+            <MudMenuItem Label="Kraj rada" />
+        </MudMenu>
     </MudAppBar>
     <MudDrawer id="nav-drawer" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu />
@@ -32,6 +50,8 @@
     private bool _isDarkMode = true;
     private MudTheme? _theme = null;
 
+    private readonly DialogOptions _noHeader = new() { NoHeader = true, FullWidth = true, MaxWidth = MaxWidth.Large };
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -43,6 +63,8 @@
             LayoutProperties = new LayoutProperties()
         };
     }
+
+    private Task OpenDialogAsync() => DialogService.ShowAsync<OdabirKlijenta>("",_noHeader);
 
     private void DrawerToggle()
     {

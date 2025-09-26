@@ -112,3 +112,10 @@ code {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+.form-label {
+    display: flex;
+    align-items: center;
+    color: var(--mud-palette-text-secondary);
+    font-weight: 500;
+}

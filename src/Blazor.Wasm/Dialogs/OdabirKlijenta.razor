@@ -1,0 +1,171 @@
+﻿@inject ISnackbar SnackbarService
+@inject IScrollManager ScrollManager
+
+<MudDialog Style="width:100%">
+    <DialogContent>
+        <MudContainer Class="pa-1 pt-3" Style="max-height: 80vh;">
+            <MudPaper Elevation="0" Class="pt-3 pl-3" Style="background-color:#2870ed;" Height="100px">
+                <MudImage Style="max-height:100%; max-width:100%;" Src="https://cdn0.erstegroup.com/content/dam/hr/ebc/common/logos/erste-bank-white.svg"></MudImage>
+            </MudPaper>
+            <MudPaper Class="pa-4">
+
+                <MudForm @ref="_form" Model="_model" OnValidSubmit="OnSubmit">
+
+                    <MudText Typo="Typo.overline" Color="Color.Secondary">Info: Regula nije detektirana.</MudText>
+
+                    <MudDivider Class="my-4" />
+                    <MudText Typo="Typo.subtitle1" Class="mb-2">Fizičke osobe</MudText>
+
+                    <MudGrid Dense="true">
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">MB u banci / Interni broj</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Individual.MbUBanci" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">OIB</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Individual.Oib" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">Broj računa</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Individual.BrojRacuna" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">IBAN</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Individual.Iban" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">ID klijenta (IBIS)</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Individual.IdKlijentaIbis" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">UCOIN</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Individual.Ucoin" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">Naziv</MudText></MudItem>
+                        <MudItem xs="12" sm="8">
+                            <MudGrid Dense="true">
+                                <MudItem xs="12" sm="6">
+                                    <MudTextField @bind-Value="_model.Individual.Ime" Placeholder="Ime..." Variant="Variant.Outlined" FullWidth="true" />
+                                </MudItem>
+                                <MudItem xs="12" sm="6">
+                                    <MudTextField @bind-Value="_model.Individual.Prezime" Placeholder="Prezime..." Variant="Variant.Outlined" FullWidth="true" />
+                                </MudItem>
+                            </MudGrid>
+                        </MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">Osobna iskaznica</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Individual.OsobnaIskaznica" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">Putovnica</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Individual.Putovnica" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+                    </MudGrid>
+
+                    <MudDivider Class="my-4" />
+                    <MudText Typo="Typo.subtitle1" Class="mb-2">Pravne osobe</MudText>
+
+                    <MudGrid Dense="true">
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">OIB</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Legal.Oib" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">Broj računa</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Legal.BrojRacuna" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">IBAN</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Legal.Iban" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">ID klijenta (IBIS)</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Legal.IdKlijentaIbis" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">UCOIN</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.Legal.Ucoin" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">Naziv</MudText></MudItem>
+                        <MudItem xs="12" sm="8">
+                            <MudGrid Dense="true">
+                                <MudItem xs="12" sm="4">
+@*                                     <MudSelect T="string" @bind-Value="_model.Legal.RezidentStatus" Variant="Variant.Outlined" FullWidth="true">
+                                        <MudSelectItem Value="1">Rezidenti</MudSelectItem>
+                                        <MudSelectItem Value="2">Nerezidenti</MudSelectItem>
+                                    </MudSelect> *@
+                                </MudItem>
+                                <MudItem xs="12" sm="8">
+                                    <MudTextField @bind-Value="_model.Legal.Naziv" Variant="Variant.Outlined" FullWidth="true" />
+                                </MudItem>
+                            </MudGrid>
+                        </MudItem>
+                    </MudGrid>
+
+                    <MudDivider Class="my-4" />
+                    <MudText Typo="Typo.subtitle1" Class="mb-2">Pretraga po broju ponude</MudText>
+
+                    <MudGrid Dense="true" Class="mb-4">
+                        <MudItem xs="12" sm="4"><MudText Class="form-label">Broj ponude</MudText></MudItem>
+                        <MudItem xs="12" sm="8"><MudTextField @bind-Value="_model.BrojPonude" Variant="Variant.Outlined" FullWidth="true" /></MudItem>
+                    </MudGrid>
+
+                </MudForm>
+            </MudPaper>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Type="Submit" Variant="Variant.Filled" Color="Color.Primary">Pozovi</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private IMudDialogInstance? MudDialog { get; set; }
+
+    private void Close() => MudDialog?.Close(DialogResult.Ok(true));
+
+    protected override void OnInitialized()
+    {
+    }
+
+    private MudForm? _form;
+    private SearchFormModel _model = new();
+
+    private async Task OnSubmit()
+    {
+        await _form!.Validate();
+        if (_form.IsValid)
+        {
+            // TODO: handle submit (call API, navigate, etc.)
+            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(_model));
+        }
+    }
+
+    private async Task Reset()
+    {
+        _model = new();
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
+
+    public class SearchFormModel
+    {
+        public IndividualSection Individual { get; set; } = new();
+        public LegalSection Legal { get; set; } = new();
+        public string? BrojPonude { get; set; }
+    }
+
+    public class IndividualSection
+    {
+        public string? MbUBanci { get; set; }
+        public string? Oib { get; set; }
+        public string? BrojRacuna { get; set; }
+        public string? Iban { get; set; }
+        public string? IdKlijentaIbis { get; set; }
+        public string? Ucoin { get; set; }
+        public string? Ime { get; set; }
+        public string? Prezime { get; set; }
+        public string? OsobnaIskaznica { get; set; }
+        public string? Putovnica { get; set; }
+    }
+
+    public class LegalSection
+    {
+        public string? Oib { get; set; }
+        public string? BrojRacuna { get; set; }
+        public string? Iban { get; set; }
+        public string? IdKlijentaIbis { get; set; }
+        public string? Ucoin { get; set; }
+        public string? RezidentStatus { get; set; } = "Rezidenti";
+        public string? Naziv { get; set; }
+    }
+
+}
